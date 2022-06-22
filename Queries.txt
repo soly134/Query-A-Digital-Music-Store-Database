@@ -1,0 +1,75 @@
+/* Query 1 */
+
+SELECT
+  G.Name,
+  COUNT(IL.TrackId) How_many_times_requested
+FROM Genre G
+JOIN Track T
+  ON G.GenreId = T.GenreId
+JOIN InvoiceLine IL
+  ON T.TrackId = IL.TrackId
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 5;
+
+
+_______________
+
+
+
+/* Query 2 */
+
+SELECT
+  AR.Name,
+  COUNT(T.TrackId) Track_Count
+FROM Track T
+JOIN Genre G
+  ON T.GenreId = G.GenreId
+JOIN Album AL
+  ON T.AlbumId = AL.AlbumId
+JOIN Artist AR
+  ON AL.ArtistId = AR.ArtistId
+WHERE G.Name = "Rock"
+GROUP BY AL.ArtistId
+ORDER BY 2 DESC
+LIMIT 5;
+
+
+
+________________
+
+
+
+/* Query 3 */
+
+SELECT C.FirstName || ' ' || C.LastName || ' from ' || C.Country CustomerName, SUM(I.Total) TotalSpent
+FROM Customer C
+JOIN Invoice I
+ON C.CustomerId = I.CustomerId
+GROUP BY C.CustomerId
+ORDER BY TotalSpent DESC
+LIMIT 5;  
+
+
+
+___________________
+
+
+/* Query 4 */ 
+
+SELECT
+  AR.Name,
+  SUM(IL.Quantity*IL.UnitPrice) TotalEarned
+FROM Artist AR
+JOIN Album AL
+  ON AR.ArtistId = AL.ArtistId
+JOIN Track T
+  ON AL.AlbumId = T.AlbumId
+JOIN InvoiceLine IL
+  ON T.TrackId = IL.TrackId
+GROUP BY 1
+ORDER BY SUM(IL.UnitPrice) DESC
+LIMIT 5;
+
+
+
